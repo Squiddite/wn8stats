@@ -16,12 +16,11 @@ class database extends mysqli {
    }
 
    public static function getInstance( $configFile ) {
-      if( !self::$instance ) self::$instance = new self( $configFile );
+      if( !( self::$instance instanceof database )) self::$instance = new self( $configFile );
       return self::$instance;
    }
 
    public function instantQuery( $query ) {
-      //$result = parent::query( $query );
       $result = $this->query( $query );
 
       if( $result instanceof mysqli_result ) {

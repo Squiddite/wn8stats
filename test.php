@@ -14,16 +14,4 @@ try {
    die( $e );
 }
 
-//$api->updateTankList( $api->getTankList() );
-//$b->updateBaselines();
-
-
-/*
-$b = new baselineHandler( $db );
-$b->fetchNewBaselines();
-var_dump( $b->baselineData->header->version );
-foreach( $b->baselineData->data as $data ) {
-   var_dump( $data->IDNum );
-}
-*/
 ?>
