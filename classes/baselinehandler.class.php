@@ -23,11 +23,11 @@ class baselineHandler {
       foreach( $baselineData as $tank ) {
          $tank->version = (int) $tank->version;
          $tank->tankid = (int) $tank->tankid;
-         $tank->ex_kills = (float) $tank->ex_kills;
-         $tank->ex_damage = (float) $tank->ex_damage;
-         $tank->ex_detections = (float) $tank->ex_detections;
-         $tank->ex_defense = (float) $tank->ex_defense;
-         $tank->ex_winrate = (float) $tank->ex_winrate;
+         $tank->expectedKills = (float) $tank->expectedKills;
+         $tank->expectedDamage = (float) $tank->expectedDamage;
+         $tank->expectedDetections = (float) $tank->expectedDetections;
+         $tank->expectedDefense = (float) $tank->expectedDefense;
+         $tank->expectedWinrate = (float) $tank->expectedWinrate;
          $data[$tank->tankid] = clone $tank;
       }
 

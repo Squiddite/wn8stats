@@ -7,13 +7,13 @@ create table if not exists tanks (
 );
 
 create table if not exists wn8baselines (
-   version        int not null,
-   tankid         int not null,
-   ex_kills       float not null,
-   ex_damage      float not null,
-   ex_detections  float not null,
-   ex_defense     float not null,
-   ex_winrate     float not null,
+   version              int not null,
+   tankid               int not null,
+   expectedKills        float not null,
+   expectedDamage       float not null,
+   expectedDetections   float not null,
+   expectedDefense      float not null,
+   expectedWinrate      float not null,
 
    foreign key ( tankid ) references tanks( id ) on delete cascade
 );
