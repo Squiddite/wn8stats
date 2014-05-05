@@ -2,11 +2,11 @@
 class baselineHandler {
 
    private $db = null;
-   public $baselineData;
+   private $baselineData;
    private $baselineDataURL = "http://www.wnefficiency.net/exp/expected_tank_values_latest.json";
 
    public function baselineHandler( $database = null ) {
-      $this->attachDatabaseHandle( $database );
+      if( !is_null( $database )) $this->attachDatabaseHandle( $database );
 
    }
 
@@ -16,9 +16,23 @@ class baselineHandler {
 
    }
 
-   private function loadStoredBaselines() {
+   public function loadStoredBaselines() {
       if( $this->db === null ) return false;
+      $baselineData = $this->db->instantQuery( "select * from wn8baselines where version = ( select max( version ) from wn8baselines )" );
 
+      foreach( $baselineData as $tank ) {
+         $tank->version = (int) $tank->version;
+         $tank->tankid = (int) $tank->tankid;
+         $tank->ex_kills = (float) $tank->ex_kills;
+         $tank->ex_damage = (float) $tank->ex_damage;
+         $tank->ex_detections = (float) $tank->ex_detections;
+         $tank->ex_defense = (float) $tank->ex_defense;
+         $tank->ex_winrate = (float) $tank->ex_winrate;
+         $data[$tank->tankid] = clone $tank;
+      }
+
+      $this->baselineData = $data;
+      return $data;
    }
 
    public function updateBaselines() {
@@ -30,17 +44,17 @@ class baselineHandler {
       } catch( Exception $e ) {
          die( $e );
       }
-      $this->baselineData = json_decode( $json );
+      $baselineData = json_decode( $json );
 
       // insert new baseline data if detected
-      $sourceVersion = (int) $this->baselineData->header->version;
+      $sourceVersion = (int) $baselineData->header->version;
       $currentVersion = $this->db->instantQuery( "select max( version ) as version from wn8baselines" );
       $currentVersion = (int) $currentVersion[0]->version;
 
       if( $sourceVersion > $currentVersion ) {
          $sql = "insert into wn8baselines ( version, tankid, ex_kills, ex_damage, ex_detections, ex_defense, ex_winrate ) values ";
          $comma = "";
-         foreach( $this->baselineData->data as $tank ) {
+         foreach( $baselineData->data as $tank ) {
             $tankid = (int) $tank->IDNum;
             $kills = (float) $tank->expFrag;
             $damage = (float) $tank->expDamage;
