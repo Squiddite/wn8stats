@@ -6,6 +6,7 @@ spl_autoload_register( function( $c ) {
    include "{$path}/{$class}.class.php";
 });
 
+/*
 try {
    $db = database::getInstance( ".config" );
    $c = new wn8calculator( $db );
@@ -14,7 +15,15 @@ try {
 } catch( Exception $e ) {
    die( $e );
 }
+*/
 
-var_dump( $b->loadStoredBaselines() );
+if( isset( $_REQUEST["get"] )) echo $_REQUEST["get"]();
+
+function tankList() {
+   $db = database::getInstance( ".config" );
+   $tanks = $db->instantQuery( "select id, name from tanks order by name" );
+   $json = json_encode( $tanks );
+   return $json;
+}
 
 ?>
