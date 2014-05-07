@@ -20,33 +20,7 @@ try {
 <body>
    <script src="js/jquery-2.1.0.js"></script>
    <script src="js/serializeObject.js"></script>
-   <script type="text/javascript">
-
-      $( function() {
-         $( "#form1 :submit" ).click( function( event ) {
-            console.log( "Submit" );
-            console.log( $( "#form1" ).serializeObject() );
-            event.preventDefault();
-         });
-      });
-
-      $( function() {
-         $.getJSON( "ajax.php?get=tankList", function( result ) {
-            $.each( result, function( tank ) {
-               $( "#tank-list" ).append( $( "<option />" ).val( result[tank].id ).text( result[tank].name ));
-            });
-
-            var blankRow = $( ".test-row" ).clone();
-            $( "#add-row" ).click( function() {
-               console.log( "Add" );
-               blankRow.clone().insertBefore( $( "#add-row" ));
-               event.preventDefault();
-            });
-
-         });
-      });
-
-   </script>
+   <script src="js/sitefunctions.js"></script>
 
    <form action="" method=post id="form1">
       <div class=test-row>
@@ -57,7 +31,8 @@ try {
          <input type=text name=damage size=3 placeholder="damage" />
          <input type=text name=detections size=3 placeholder="spots" />
          <input type=text name=defense size=3 placeholder="defense" />
-         <input type=text name=winrate size=3 placeholder="winrate" />
+         <!--<input type=text name=winrate size=3 placeholder="winrate" />-->
+         <label>Win<input type=checkbox name=victory size=3 /></label>
       </div>
 
       <input type=button id=add-row name=add-row value="Add Row" />
