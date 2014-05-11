@@ -26,4 +26,11 @@ function tankList() {
    return $json;
 }
 
+function calculateWN8() {
+   $db = database::getInstance( ".config" );
+   $wn8Array = $_REQUEST["json"];
+   return $wn8Array;
+
+}
+
 ?>

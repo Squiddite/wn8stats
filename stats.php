@@ -19,7 +19,6 @@ try {
 <html>
 <body>
    <script src="js/jquery-2.1.0.js"></script>
-   <script src="js/serializeObject.js"></script>
    <script src="js/sitefunctions.js"></script>
 
    <div class="prototype-row">
@@ -43,8 +42,7 @@ try {
       </div>
 
       <input type=button id=add-row name=add-row value="Add Row" />
-      <input type=button id=calculate name=calculate value="Calculate" />
-      <input type=submit id=submit name=submit value="Submit" />
+      <input type=submit id=calculate name=calculate value="Calculate" />
    </form>
 
 

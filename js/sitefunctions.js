@@ -1,7 +1,11 @@
 $( function() {
    $( "#form1 :submit" ).click( function( event ) {
-      console.log( $( "#form1" ).serializeObject() );
       event.preventDefault();
+      json = serializeForm( $( "#form1" ));
+      json = JSON.stringify( json );
+      $.getJSON( "ajax.php?get=calculateWN8&json="+json, function( result ) {
+         console.log( result );
+      });
    });
 });
 
@@ -28,3 +32,29 @@ $( function() {
    });
 
 });
+
+function serializeForm( form ) {
+   json = [];
+   $( form ).find( "div.test-row" ).each( function() {
+      line = {};
+      row = $( this );
+      row.children().each( function() {
+         element = $( this );
+         if( element.is( "select" )) { type = "s"; }
+         if( element.is( "input" ))  { type = "i"; }
+         if( element.is( "label" ))  { type = "l"; }
+         switch( type ) {
+          case "s":
+          case "i":
+            line[ element.attr( "name" )] = element.val();
+            break;
+          case "l":
+            element = $( element[0].childNodes[1] );
+            line[ element.attr( "name" )] = element.prop( "checked" );
+            break;
+         }
+      });
+      json.push( line );
+   });
+   return json;
+};
