@@ -22,20 +22,28 @@ try {
    <script src="js/serializeObject.js"></script>
    <script src="js/sitefunctions.js"></script>
 
+   <div class="prototype-row">
+      <select id="tank-list" name=tankid required>
+         <option value=0 selected>----------</option>
+      </select>
+      <input type=text name=kills size=3 placeholder="kills" />
+      <input type=text name=damage size=3 placeholder="damage" />
+      <input type=text name=detections size=3 placeholder="spots" />
+      <input type=text name=defense size=3 placeholder="defense" />
+      <input type=text name=assist size=3 placeholder="assist" />
+      <label>Victory<input type=checkbox name=victory size=3 /></label>
+      <label>Survived<input type=checkbox name=survived size=3 /></label>
+   </div>
+
    <form action="" method=post id="form1">
-      <div class=test-row>
-         <select id="tank-list" name=tankid required>
-            <option value=0>----------</option>
-         </select>
-         <input type=text name=kills size=3 placeholder="kills" />
-         <input type=text name=damage size=3 placeholder="damage" />
-         <input type=text name=detections size=3 placeholder="spots" />
-         <input type=text name=defense size=3 placeholder="defense" />
-         <!--<input type=text name=winrate size=3 placeholder="winrate" />-->
-         <label>Win<input type=checkbox name=victory size=3 /></label>
+      <div class=stats-header">
+      </div>
+
+      <div id="stats-footer" class=stats-footer">
       </div>
 
       <input type=button id=add-row name=add-row value="Add Row" />
+      <input type=button id=calculate name=calculate value="Calculate" />
       <input type=submit id=submit name=submit value="Submit" />
    </form>
 
