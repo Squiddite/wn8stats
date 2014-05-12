@@ -2,7 +2,7 @@
 class baselineHandler {
 
    private $db = null;
-   private $baselineData;
+   private $baselineData = null;
    private $baselineDataURL = "http://www.wnefficiency.net/exp/expected_tank_values_latest.json";
 
    public function baselineHandler( $database = null ) {
@@ -68,6 +68,10 @@ class baselineHandler {
       }
    }
 
+   public function checkBaseline( $tankid ) {
+      if( $this->baselineData === null ) $this->loadStoredBaselines();
+      return $this->baselineData[ $tankid ];
+   }
 }
 
 ?>
