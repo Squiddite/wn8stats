@@ -32,6 +32,7 @@ try {
       <input type=text name=assist size=3 placeholder="assist" />
       <label>Victory<input type=checkbox name=victory size=3 /></label>
       <label>Survived<input type=checkbox name=survived size=3 /></label>
+      <label class=wn8value></label>
    </div>
 
    <form action="" method=post id="form1">
@@ -44,6 +45,11 @@ try {
       <input type=button id=add-row name=add-row value="Add Row" />
       <input type=submit id=calculate name=calculate value="Calculate" />
    </form>
+
+   <br />
+   <label id=wn8aggregate></label>
+   </br />
+   <label id=wn8average></label>
 
 
 </body>

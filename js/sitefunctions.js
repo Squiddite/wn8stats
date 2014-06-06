@@ -6,6 +6,18 @@ $( function() {
       json = JSON.stringify( json );
       $.getJSON( "ajax.php?get=calculateWN8&json="+json, function( result ) {
          console.log( result );
+         $( "#form1 .test-row" ).each( function( rownum ) {
+            wn8 = result.individualWN8s[ rownum ];
+            color = getColorScaleByWN8( wn8 );
+            $(this).find( ".wn8value" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
+         });
+         wn8 = result.aggregateWN8;
+         color = getColorScaleByWN8( wn8 );
+         $( "#wn8aggregate" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
+
+         wn8 = result.averageWN8;
+         color = getColorScaleByWN8( wn8 );
+         $( "#wn8average" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
       });
    });
 });
@@ -61,4 +73,37 @@ function serializeForm( form ) {
       json.push( line );
    });
    return json;
+};
+
+function getColorScaleByWN8( wn8 ) {
+   wn8values = [
+      -9999,
+      300,
+      600,
+      900,
+      1250,
+      1600,
+      1900,
+      2350,
+      2900
+   ];
+
+   colors = [
+      "#000000",
+      "#5e0000",
+      "#cd3333",
+      "#d7b600",
+      "#6d9521",
+      "#4c762e",
+      "#4a92b7",
+      "#83579d",
+      "#5a3175"
+   ];
+
+   for( i = 0; i < wn8values.length; i++ ) {
+      console.log( wn8values[ i ] );
+      if( wn8values[ i ] <= wn8 ) { color = colors[ i ] };
+   }
+
+   return color;
 };
