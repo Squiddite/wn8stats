@@ -31,6 +31,7 @@ function cloneRow() {
    blankRow.toggleClass( "prototype-row test-row" );
    blankRow.toggle();
    blankRow.clone().insertBefore( "#stats-footer" );
+   $( "#form1 .test-row select" ).last().focus();
    x = $( "#form1 .test-row" ).last().prev().find( "select :selected" ).val();
    if( typeof x != "undefined" ) $( "#form1 .test-row" ).last().find( "select" ).val( x ).prop( "selected", true );
 };

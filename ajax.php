@@ -33,7 +33,7 @@ function calculateWN8() {
    $json = $_REQUEST["json"];
    $statArray = json_decode( $_REQUEST["json"] );
 
-   $w = $c->calculateWN8( $statArray );
+   $w = $c->calculateWN8Aggregate( $statArray );
    return json_encode( $w );
 
 }
