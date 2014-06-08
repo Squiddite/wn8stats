@@ -1,27 +1,3 @@
-// calculation button handler
-$( function() {
-   $( "#form1 :submit" ).click( function( event ) {
-      event.preventDefault();
-      json = serializeForm( $( "#form1" ));
-      json = JSON.stringify( json );
-      $.getJSON( "ajax.php?get=calculateWN8&json="+json, function( result ) {
-         console.log( result );
-         $( "#form1 .test-row" ).each( function( rownum ) {
-            wn8 = result.individualWN8s[ rownum ];
-            color = getColorScaleByWN8( wn8 );
-            $(this).find( ".wn8value" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
-         });
-         wn8 = result.aggregateWN8;
-         color = getColorScaleByWN8( wn8 );
-         $( "#wn8aggregate" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
-
-         wn8 = result.averageWN8;
-         color = getColorScaleByWN8( wn8 );
-         $( "#wn8average" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
-      });
-   });
-});
-
 // set up template row for cloning; clone button handler
 $( function() {
    $( ".prototype-row" ).toggle();
@@ -31,9 +7,34 @@ $( function() {
       });
 
       cloneRow();
-      $( "#add-row" ).click( function() { cloneRow(); });
+      $( "#go" ).click( function() {
+         event.preventDefault();
+         calculateWN8();
+         calculateWinrate();
+         cloneRow();
+      });
    });
 });
+
+function calculateWN8() {
+   json = serializeForm( $( "#form1" ));
+   json = JSON.stringify( json );
+   $.getJSON( "ajax.php?get=calculateWN8&json="+json, function( result ) {
+      console.log( result );
+      $( "#form1 .test-row" ).each( function( rownum ) {
+         wn8 = result.individualWN8s[ rownum ];
+         color = getColorScaleByWN8( wn8 );
+         $(this).find( ".wn8value" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
+      });
+      wn8 = result.aggregateWN8;
+      color = getColorScaleByWN8( wn8 );
+      $( "#wn8aggregate" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
+
+      wn8 = result.averageWN8;
+      color = getColorScaleByWN8( wn8 );
+      $( "#wn8average" ).text( wn8 ).css( "background-color", color ).css( "color", "ffffff" );
+   });
+}
 
 // row cloner
 function cloneRow() {
@@ -46,7 +47,22 @@ function cloneRow() {
    $( "#form1 .test-row select" ).last().focus();
    x = $( "#form1 .test-row" ).last().prev().find( "select :selected" ).val();
    if( typeof x != "undefined" ) $( "#form1 .test-row" ).last().find( "select" ).val( x ).prop( "selected", true );
-};
+}
+
+function calculateWinrate() {
+   battles = 0;
+   wins = 0;
+
+   $( ".test-row #victory" ).each( function() {
+      battles++;
+      isChecked = $(this).is( ":checked" );
+      if( isChecked ) { wins++; }
+   });
+   winrate = Math.round(( wins / battles ) * 100 );
+
+   color = getColorScaleByWinrate( winrate );
+   $( "#winrate" ).text( winrate ).css( "background-color", color ).css( "color", "ffffff" );
+}
 
 // form serializer for calculator submission
 function serializeForm( form ) {
@@ -73,7 +89,28 @@ function serializeForm( form ) {
       json.push( line );
    });
    return json;
-};
+}
+
+function getColorScaleByWinrate( winrate ) {
+   winrates = [
+      0,
+      45,
+      47,
+      49,
+      52,
+      54,
+      56,
+      60,
+      65
+   ];
+
+   for( i = 0; i < winrates.length; i++ ) {
+      if( winrates[ i ] <= winrate ) { colorIndex = i; }
+   }
+
+   color = colorScale( colorIndex );
+   return color;
+}
 
 function getColorScaleByWN8( wn8 ) {
    wn8values = [
@@ -88,6 +125,15 @@ function getColorScaleByWN8( wn8 ) {
       2900
    ];
 
+   for( i = 0; i < wn8values.length; i++ ) {
+      if( wn8values[ i ] <= wn8 ) { colorIndex = i }
+   }
+
+   color = colorScale( colorIndex );
+   return color;
+}
+
+function colorScale( index ) {
    colors = [
       "#000000",
       "#5e0000",
@@ -99,11 +145,5 @@ function getColorScaleByWN8( wn8 ) {
       "#83579d",
       "#5a3175"
    ];
-
-   for( i = 0; i < wn8values.length; i++ ) {
-      console.log( wn8values[ i ] );
-      if( wn8values[ i ] <= wn8 ) { color = colors[ i ] };
-   }
-
-   return color;
-};
+   return colors[ index ];
+}
