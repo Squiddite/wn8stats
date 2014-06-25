@@ -1,4 +1,4 @@
-// set up template row for cloning; clone button handler
+// set up template row for cloning
 $( function() {
    $( ".prototype-row" ).toggle();
    $.getJSON( "ajax.php?get=tankList", function( result ) {
@@ -7,12 +7,49 @@ $( function() {
       });
 
       cloneRow();
-      $( "#go" ).click( function() {
-         event.preventDefault();
-         calculateWN8();
-         calculateWinrate();
-         cloneRow();
-      });
+
+      testWackySelectizeNonsense();
+   });
+});
+
+function testWackySelectizeNonsense() {
+   //
+   // wacky test nonsense
+   //
+   blankRow = $( ".prototype-row" ).clone();
+   event.preventDefault();
+
+   blankRow.toggleClass( "prototype-row fake-row" );
+   blankRow.toggle();
+   blankRow.clone().appendTo( "#spambox" );
+   $( "#spambox .fake-row select" ).last().selectize({
+      create: false,
+      sortField: { field: "text" }
+   });
+};
+
+// button handlers
+$( function() {
+   $( "#go" ).click( function() {
+      event.preventDefault();
+      calculateWN8();
+      calculateWinrate();
+      cloneRow();
+   });
+
+   $( "#update" ).click( function() {
+      event.preventDefault();
+      $( "#form1 .test-row" ).last().remove();
+      calculateWN8();
+      calculateWinrate();
+      cloneRow();
+   });
+
+   $( "#reset" ).click( function() {
+      event.preventDefault();
+      console.log( "reset" );
+      $( "#form1 .test-row" ).remove();
+      cloneRow();
    });
 });
 

@@ -17,13 +17,17 @@ try {
 
 ?>
 <html>
+<head>
+   <link rel=stylesheet type="text/css" href="css/selectize.css">
+</head>
 <body>
    <script src="js/jquery-2.1.0.js"></script>
    <script src="js/sitefunctions.js"></script>
+   <script src="js/selectize.js"></script>
 
    <div class="prototype-row">
       <select id="tank-list" name=tankid required>
-         <option value=0 selected>----------</option>
+         <option value="" selected>Select Tank</option>
       </select>
       <input type=text name=kills size=3 placeholder="kills" />
       <input type=text name=damage size=3 placeholder="damage" />
@@ -43,6 +47,8 @@ try {
       </div>
 
       <input type=button id=go name=go value="Go" />
+      <input type=button id=update name=update value="Recalculate" />
+      <input type=button id=reset name=reset value="Reset" />
    </form>
 
    <br />
@@ -52,6 +58,25 @@ try {
    </br />
    <label id=winrate></label>
 
+
+<!--
+<hr>
+
+<div id=spambox style="width:420">
+   <select id="select-tank" placeholder="Tank" class="selectized">
+      <option value="">Tank</option>
+      <option value=1>asdf</option>
+      <option value=3>sausages</option>
+      <option value=2>pasta</option>
+   </select>
+</div>
+<script>
+   $( "#select-tank" ).selectize({
+      create: false,
+      sortField: { field: "text" }
+   });
+</script>
+-->
 
 </body>
 </html>
