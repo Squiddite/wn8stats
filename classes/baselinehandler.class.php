@@ -52,7 +52,7 @@ class baselineHandler {
       $currentVersion = (int) $currentVersion[0]->version;
 
       if( $sourceVersion > $currentVersion ) {
-         $sql = "insert into wn8baselines ( version, tankid, ex_kills, ex_damage, ex_detections, ex_defense, ex_winrate ) values ";
+         $sql = "insert into wn8baselines ( version, tankid, expectedKills, expectedDamage, expectedDetections, expectedDefense, expectedWinrate ) values ";
          $comma = "";
          foreach( $baselineData->data as $tank ) {
             $tankid = (int) $tank->IDNum;
@@ -66,6 +66,8 @@ class baselineHandler {
          }
          $this->db->query( $sql );
       }
+
+      return $sourceVersion;
    }
 
    public function checkBaseline( $tankid ) {

@@ -21,7 +21,7 @@ if( isset( $_REQUEST["get"] )) echo $_REQUEST["get"]();
 
 function tankList() {
    $db = database::getInstance( ".config" );
-   $tanks = $db->instantQuery( "select id, name from tanks order by name" );
+   $tanks = $db->instantQuery( "select id, name, class from tanks order by name" );
    $json = json_encode( $tanks );
    return $json;
 }
@@ -38,4 +38,12 @@ function calculateWN8() {
 
 }
 
+function updateBaselines() {
+   $db = database::getInstance( ".config" );
+   $c = new wn8calculator( $db );
+   $b = $c->baselineHandler;
+
+   $v = $b->updateBaselines();
+   return $v;
+}
 ?>
